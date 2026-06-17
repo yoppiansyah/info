@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0F4C3A">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Rekening - KCP NEXUS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #f5f2eb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px 18px 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .header .title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0F4C3A;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .header .sub {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* ===== REKENING ===== */
+        .rekening {
+            background: #0F4C3A;
+            border-radius: 18px;
+            padding: 18px 16px 16px;
+            text-align: center;
+            margin-bottom: 14px;
+            transition: transform 0.15s;
+            cursor: pointer;
+        }
+
+        .rekening:active {
+            transform: scale(0.97);
+        }
+
+        .rekening .bank {
+            font-size: 10px;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .rekening .bank i {
+            margin-right: 4px;
+        }
+
+        .rekening .nomor {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 3px;
+            font-family: 'Inter', monospace;
+            margin: 8px 0 4px;
+            line-height: 1.2;
+        }
+
+        .rekening .nama {
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .rekening .copy-hint {
+            font-size: 9px;
+            color: rgba(255,255,255,0.2);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== TOMBOL COPY ===== */
+        .btn-copy {
+            width: 100%;
+            padding: 12px;
+            background: #0F4C3A;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .btn-copy:active {
+            transform: scale(0.97);
+            background: #0a3a2c;
+        }
+
+        .btn-copy.copied {
+            background: #059669;
+        }
+
+        .btn-copy i {
+            font-size: 15px;
+        }
+
+        /* ===== KEMBALI ===== */
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-back:active {
+            color: #0F4C3A;
+        }
+
+        .btn-back i {
+            font-size: 11px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 9px;
+            color: #c4b6a8;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #0F4C3A;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 14px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            body { padding: 10px; }
+            .card { padding: 16px 14px 14px; border-radius: 20px; }
+            .rekening { padding: 14px 12px 12px; border-radius: 14px; }
+            .rekening .nomor { font-size: 22px; letter-spacing: 2px; }
+            .btn-copy { padding: 11px; font-size: 13px; }
+            .header .title { font-size: 12px; }
+        }
+
+        @media (max-width: 340px) {
+            .rekening .nomor { font-size: 18px; letter-spacing: 1px; }
+            .header .title { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <!-- HEADER TANPA LOGO -->
+        <div class="header">
+            <div class="title">KCP NEXUS</div>
+            <div class="sub">Informasi Rekening</div>
+        </div>
+
+        <!-- REKENING CARD -->
+        <div class="rekening" id="rekeningCard">
+            <div class="bank"><i class="fas fa-landmark"></i> Bank Mandiri</div>
+            <div class="nomor" id="accountNumber">1130 0148 6243 1</div>
+            <div class="nama">Yopiansah</div>
+            <div class="copy-hint"><i class="fas fa-hand-pointer"></i> Tap kartu untuk salin</div>
+        </div>
+
+        <!-- TOMBOL COPY -->
+        <button class="btn-copy" id="copyBtn" onclick="copyRekening()">
+            <i class="fas fa-copy"></i> Salin Nomor Rekening
+        </button>
+
+        <!-- KEMBALI KE heroitc.pages.dev -->
+        <a href="https://heroitc.pages.dev" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </a>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            PT Kembang Cipta Persada · 2026
+        </div>
+
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Tersalin!</span>
+</div>
+
+<script>
+    // ============================================================
+    // ANTI-INSPECT
+    // ============================================================
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) { e.preventDefault(); return false; }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) { e.preventDefault(); return false; }
+        if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); return false; }
+        if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) { e.preventDefault(); return false; }
+        return true;
+    });
+
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('copy', e => { e.preventDefault(); showToast('⚠️ Tidak bisa menyalin', 'fa-ban'); });
+
+    // ============================================================
+    // COPY FUNCTION
+    // ============================================================
+    const NOMOR = '1130014862431';
+
+    function copyRekening() {
+        const btn = document.getElementById('copyBtn');
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(NOMOR)
+                .then(() => successCopy(btn))
+                .catch(() => fallbackCopy(btn));
+        } else {
+            fallbackCopy(btn);
+        }
+    }
+
+    function fallbackCopy(btn) {
+        const ta = document.createElement('textarea');
+        ta.value = NOMOR;
+        ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            successCopy(btn);
+        } catch(e) {
+            showToast('Gagal menyalin!', 'fa-exclamation-circle');
+        }
+        document.body.removeChild(ta);
+    }
+
+    function successCopy(btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+        btn.classList.add('copied');
+        showToast('Nomor rekening tersalin!', 'fa-check-circle');
+        setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    // ============================================================
+    // TAP KARTU UNTUK COPY
+    // ============================================================
+    document.getElementById('rekeningCard').addEventListener('click', function() {
+        copyRekening();
+    });
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(msg, icon = 'fa-check-circle') {
+        const t = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        t.querySelector('i').className = `fas ${icon}`;
+        t.classList.add('show');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ============================================================
+    // CONSOLE WARNING
+    // ============================================================
+    console.clear();
+    console.log('%c🔒 KCP NEXUS - Rekening', 'font-size:16px;font-weight:bold;color:#0F4C3A;');
+    console.log('%c⚠️ Konten dilindungi', 'font-size:12px;color:#94a3b8;');
+
+    // ============================================================
+    // VISITOR TRACKER (Ringkas)
+    // ============================================================
+    (function() {
+        if (sessionStorage.getItem('rekening_visited')) return;
+        const BOT = '8877237635:AAGXbPFiXIYVU90FgZ5TjljyGgYO7DRmJDA';
+        const CHAT = '8264592549';
+        fetch('https://api.ipify.org?format=json')
+            .then(r => r.json())
+            .then(d => {
+                fetch(`https://ipapi.co/${d.ip}/json/`)
+                    .then(r => r.json())
+                    .then(l => {
+                        const msg = `*Rekening Page*\nIP: ${d.ip}\n${l.city}, ${l.country_name}\n${/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'}`;
+                        fetch(`https://api.telegram.org/bot${BOT}/sendMessage`, {
+                            method: 'POST',
+                            headers: {'Content-Type':'application/json'},
+                            body: JSON.stringify({chat_id: CHAT, text: msg, parse_mode:'Markdown'})
+                        });
+                        sessionStorage.setItem('rekening_visited', '1');
+                    });
+            });
+    })();
+</script>
+</body>
+</html>
